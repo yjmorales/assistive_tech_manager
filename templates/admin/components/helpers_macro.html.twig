@@ -1,0 +1,189 @@
+{#
+Renders a symfony form field.
+@param Object field: represents the form field.
+#}
+{% macro field(field) %}
+    <div class="form-group row">
+        <div class="col">
+            {{ form_label(field) }}
+            {{ form_widget(field) }}
+            {% if field.vars.errors|length %}
+                <div class="text-danger">
+                    {{ form_errors(field) }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col pt-4">
+            {% if field.vars.attr.help ?? false %}
+                <small class="text-muted">{{ field.vars.attr.help }}</small>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{#
+Renders a "No results found" label.
+@param {string} message: represents the message to be rendered
+@param {string} id: represents the id of the component
+@param {boolean} textCenter: Indicates the text is centered or not
+@param {string|null} class: The css class to apply.
+#}
+{% macro no_result(message, id, textCenter = true, class = null) %}
+    <div {% if id %}id="{{ id }}"{% endif %} class="callout callout-warning {{ class ? class }}">
+        <p class="{{ textCenter ? 'text-center' }} text-muted font-14">
+            {% if message %}
+                {{ message }}
+            {% else %}
+                No results found.
+            {% endif %}
+        </p>
+    </div>
+{% endmacro %}
+
+{#
+Renders the form processing overlay component.
+#}
+{% macro form_processing() %}
+    <div class="overlay d-none">
+        <div class="spinner-border text-info" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+{% endmacro %}
+
+{#
+Renders the success flash notification messages caming from symfony controllers.
+#}
+{% macro notifications_success() %}
+    {% for message in app.flashes('success') %}
+        <div class="notifications-success d-none">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{#
+Renders the error flash notification messages caming from symfony controllers.
+#}
+{% macro notifications_error() %}
+    {% for message in app.flashes('error') %}
+        <div class="notifications-error d-none">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{#
+Renders the warning flash notification messages caming from symfony controllers.
+#}
+{% macro notifications_warning() %}
+    {% for message in app.flashes('warning') %}
+        <div class="notifications-warning d-none">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{#
+Renders the copyright information #}
+{% macro copyright() %}
+    {% set startDate = '2022' %}
+    {% set nowYear = 'now' | date('Y') %}
+    {% if nowYear == startDate %}
+        Copyright &copy; {{ startDate }}.
+    {% else %}
+        Copyright &copy; {{ startDate }} - {{ nowYear }}
+    {% endif %}
+{% endmacro %}
+
+{#
+# Use this macro to render the spinner inside a button.
+#}
+{% macro buttonSpinner() %}
+    <span class="spinner-border spinner-border-sm d-none btn-spinner" role="status" aria-hidden="true"></span>
+{% endmacro %}
+
+{#
+# Use this macro to render the recaptcha protection message.
+#}
+{% macro recaptchaV3Description() %}
+    <small class="text-muted">
+        This site is protected by reCAPTCHA V3 and the Google
+        <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+        <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+    </small>
+{% endmacro %}
+
+
+{# Use this macro to render the errors within an alert div.bg-danger
+@param {array} errors: Contains the error messages if any.
+#}
+{% macro errors(errors) %}
+    {% if errors is defined and errors is not empty %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {% for error in errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{# Use this macro to render the boolean icon. Check in green id true , Times in reds if false.
+@param {boolean} value: Indicator wether it's valid or not.
+#}
+
+{% macro booleanIcon(value) %}
+    <strong>
+        {% if value %}
+            <i class="fa-solid fa-circle-check text-success" title="Active"></i>
+        {% else %}
+            <i class="fa fa-times-circle text-danger" aria-hidden="true" title="Inactive"></i>
+        {% endif %}
+    </strong>
+{% endmacro %}
+
+{#
+Use this macro to render the badge. green if true , reds if false.
+@param {satring} value: Value to be placed as a badge.
+#}
+
+{% macro booleanBadge(value) %}
+    {% if value %}
+        <span class="badge badge-success y-badge">Active</span>
+    {% else %}
+        <span class="badge badge-danger y-badge">Inactive</span>
+    {% endif %}
+{% endmacro %}
+
+
+{#
+Use this macro to render a `Copy to Clipboard` btn.
+@param {string} data: Data to be copied.
+@param {satring} defaultBtnTxt: Default text that has the btn to copy to clipboard.
+#}
+{% macro copyToClipboardButton(data, defaultBtnTxt = null) %}
+    <button title="Copy to Clipboard"
+            data-text="{{ data }}"
+            class="btn btn-outline-secondary btn-xs btnCopyToClipBoard">
+        <i class="fa fa-copy"></i>
+        <span class="text-copy-clipboard"
+              data-default-text="{{ defaultBtnTxt }}">{{ defaultBtnTxt }}</span>
+    </button>
+{% endmacro %}
+
+
+{#
+Preview an image.
+@param {string} imgFilename: Filename of the image to render.
+@param {string} cssClass: Additional css classes applied to the image.
+#}
+{% macro imgPreview(imgFilename, cssClass) %}
+    <div>
+        <label>Picture preview.</label>
+    </div>
+    <img {% if imgFilename %}src="{{ imgFilename }}"{% endif %}
+         class="img-fluid y-img-preview {{ cssClass }}">
+{% endmacro %}

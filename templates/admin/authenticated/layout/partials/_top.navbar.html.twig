@@ -1,0 +1,35 @@
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav text-right">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+
+    </ul>
+    <ul class="navbar-nav navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link btn btn-info text-white" href="{{ path('index') }}">
+                Go to Operation CPG
+            </a>
+        </li>
+
+        <li class="nav-item dropdown ">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                    <span class="d-none d-md-inline">
+                    {{ app.user.email }}
+                <i class="fas fa-chevron-down ml-2"></i>
+                </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <a href="{{ path('bo_profile') }}" class="dropdown-item">
+                    Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="{{ path('bo_logout') }}" class="dropdown-item">
+                    Logout
+                </a>
+            </div>
+        </li>
+
+    </ul>
+</nav>

@@ -1,0 +1,8 @@
+parameters:
+  system_name: Assistive Technology Management System
+  start_date: 2023
+
+ # Redis
+  redis_host: 'localhost'
+  redis_port: '6379'
+  redis_password: null

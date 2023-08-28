@@ -1,0 +1,51 @@
+nav .nav-link {
+    font-size: 15px !important;
+}
+
+nav ul.nav-treeview .nav-item p,
+nav ul.nav-treeview .nav-item i {
+    font-size: 14px !important;
+}
+
+.card-header-compressed {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.font-12 {
+    font-size: 13px;
+}
+
+.font-12 {
+    font-size: 12px;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.font-20 {
+    font-size: 20px;
+}
+
+.y-badge {
+    font-weight: 1;
+    padding: 4px 10px;
+}
+
+.card-header-compressed {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.btn-admin {
+    width: 100px;
+}
+
+.grecaptcha-badge {
+    visibility: hidden;
+}
+
+.nav-sidebar .nav-item .nav.nav-treeview .nav-link {
+    padding-left: 30px !important;
+}

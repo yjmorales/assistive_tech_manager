@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ system_name }} | {% block title %}{% endblock %}</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="{{ asset('/dist/css/admin_css.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/dist/css/admin_css_select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/dist/css/admin_toastr_css.css') }}">
+
+    {# Application CSS #}
+    <link rel="stylesheet" href="{{ asset('/app/admin/css/authenticated/layout/layout.css') }}">
+
+    {# Font Awesome #}
+    <script src="https://kit.fontawesome.com/8b7bd8c027.js" crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('/img/bo/favicon.ico') }}">
+
+    {% block css %}{% endblock %}
+
+</head>
+<body class="hold-transition sidebar-mini layout-navbar-fixed">
+<!-- Site wrapper -->
+<div class="wrapper">
+    <!-- Navbar -->
+    {% include '/admin/authenticated/layout/partials/_top.navbar.html.twig' %}
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="{{ path('admin_dashboard') }}" class="brand-link elevation-4">
+            <img src="{{ asset('/admin/img/logo.png') }}" class="brand-image img-circle"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">Assistive Technology</span>
+            <strong>Management System</strong>
+        </a>
+
+        <!-- Sidebar -->
+        {% include '/admin/authenticated/layout/partials/_left.navbar.html.twig' %}
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header pt-1 pb-1">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>{% block pageTitle %}{% endblock %}</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        {% include '/admin/authenticated/layout/partials/_breadcrumb.html.twig' %}
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                {% block content %}{% endblock %}
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    {% include '/admin/authenticated/layout/partials/_footer.html.twig' %}
+
+</div>
+<!-- ./wrapper -->
+
+<!-- Vendor JS -->
+<script src="https://cdn.tiny.cloud/1/lato47m6perhjhqfz5qri4x1kb6lo2xrbou5wexq2k89a6ur/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+<script src="{{ asset('/dist/js/admin_js.min.js') }}"></script>
+<script src="{{ asset('/dist/js/admin_js_select2.min.js') }}"></script>
+<script src="{{ asset('/dist/js/admin_toastr_js.js') }}"></script>
+<script src="{{ asset('/dist/js/admin_auto_form_format_js.js') }}"></script>
+<script src="{{ asset('/dist/js/admin_input_mask.js') }}"></script>
+
+{# Application JS #}
+<script src="{{ asset('/app/admin/js/authenticated/layout/Common/BsComponents.js') }}"></script>
+<script src="{{ asset('/app/admin/js/authenticated/layout/Common/OverlayLoaderManager.js') }}"></script>
+<script src="{{ asset('/app/admin/js/authenticated/layout/Common/LoaderManager.js') }}"></script>
+<script src="{{ asset('/app/admin/js/authenticated/layout/Common/FormManagement.js') }}"></script>
+<script src="{{ asset('/app/admin/js/authenticated/layout/Common/Notification.js') }}"></script>
+
+
+{# Local js #}
+<script>
+    (new BsComponents()).init();
+    (new FormManagement()).init();
+    (new Notification()).init();
+    (new AutoPhoneFormatter()).init();
+</script>
+
+{% block js %}{% endblock %}
+
+</body>
+</html>
