@@ -16,13 +16,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 /**
+ * Manages a client.
+ *
  * @Route("/admin/client")
  */
 class ClientController extends BaseController
 {
     /**
+     * Lists the clients.
+     *
      * @Route("/", name="admin_client_list")
      */
     public function index(ManagerRegistry $doctrine): Response

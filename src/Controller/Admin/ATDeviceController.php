@@ -25,6 +25,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ATDeviceController extends BaseController
 {
     /**
+     * Lists the devices
+     *
      * @Route("/", name="admin_at_device_list")
      */
     public function index(ManagerRegistry $doctrine): Response
@@ -80,7 +82,7 @@ class ATDeviceController extends BaseController
     }
 
     /**
-     * Edits a new at entity.
+     * Edits a new device entity.
      *
      * @Route("/{id}/edit", name="admin_at_device_edit")
      *

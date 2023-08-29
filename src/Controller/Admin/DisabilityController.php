@@ -25,6 +25,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class DisabilityController extends BaseController
 {
     /**
+     * Lists the disabilities
+     *
      * @Route("/", name="admin_disability_list")
      */
     public function index(ManagerRegistry $doctrine): Response

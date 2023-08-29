@@ -26,6 +26,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends BaseController
 {
     /**
+     * Shows dashboard page and Players.
+     *
      * @Route("/", name="admin_dashboard")
      */
     public function index(ManagerRegistry $doctrine): Response
@@ -51,6 +53,8 @@ class DashboardController extends BaseController
     }
 
     /**
+     * Helper function to generate fake data to play with this web api.
+     *
      * @Route("/setup", name="admin_dashboard_setup")
      */
     public function setup(ManagerRegistry $doctrine): Response
@@ -160,14 +164,11 @@ class DashboardController extends BaseController
 
         $em->flush();
 
-        // PLAYERS
-
-
         return $this->redirectToRoute('admin_client_list');
     }
 
     /**
-     * Helper function to setup players.
+     * Helper function to set up players.
      *
      * @param ManagerRegistry $doctrine
      *
@@ -198,7 +199,6 @@ class DashboardController extends BaseController
 
         $em->flush();
     }
-
 
     /**
      * Helper function to clear the db.

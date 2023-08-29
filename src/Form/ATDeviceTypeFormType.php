@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Represents the AT Device Form Type.
+ * Represents the AT Device Type Form Type.
  */
 class ATDeviceTypeFormType extends AbstractType
 {

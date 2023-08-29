@@ -25,6 +25,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class PlatformController extends BaseController
 {
     /**
+     * Lists the platforms.
+     *
      * @Route("/", name="admin_platform_list")
      */
     public function index(ManagerRegistry $doctrine): Response

@@ -18,13 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * Renders the dashboard page.
+ * Renders the device type page.
  *
  * @Route("/admin/at-device-type")
  */
 class ATDeviceTypeController extends BaseController
 {
     /**
+     * Lists the device types
+     *
      * @Route("/", name="admin_at_device_type_list")
      */
     public function index(ManagerRegistry $doctrine): Response
@@ -126,7 +128,7 @@ class ATDeviceTypeController extends BaseController
     }
 
     /**
-     * Removes an at device type entity.
+     * Removes a device type entity.
      *
      * @Route("/{id}/remove", name="admin_at_device_type_remove")
      *
