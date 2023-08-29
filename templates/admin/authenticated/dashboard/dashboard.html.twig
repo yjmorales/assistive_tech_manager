@@ -1,9 +1,43 @@
 {% extends '/admin/authenticated/layout/base.html.twig' %}
 
+{% import '/admin/components/helpers_macro.html.twig' as helpers %}
+
 {% block title %}
     Dashboard
 {% endblock %}
 
 {% block pageTitle %}
     Dashboard
+{% endblock %}
+
+{% block content %}
+
+    {{ helpers.notifications_success() }}
+    {{ helpers.notifications_error() }}
+    {{ helpers.notifications_warning() }}
+
+    <div class="row">
+        <div class="col">
+            <div class="card card-primary card-outline direct-chat direct-chat-info">
+                <div class="card-header card-header-compressed">
+                    <strong class="font-20">Setup</strong>
+                </div>
+                <div class="card-body p-2">
+                    <div class="row">
+                        <div class="col-8 offset-2">
+                            <p class="text-center">
+                                To populate the web application with data please hit <strong>Setup Now</strong> button.
+                            </p>
+                            <div class="p-2 text-center">
+                                <form action="{{ path('admin_dashboard_setup') }}" method="post">
+                                    <button class="btn btn-primary">Setup Now</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ helpers.form_processing() }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
