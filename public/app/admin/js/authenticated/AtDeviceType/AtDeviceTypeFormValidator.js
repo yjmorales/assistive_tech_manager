@@ -1,17 +1,16 @@
 'use strict';
 
 /**
- * Validates the `profile email` form.
+ * Validates the entity form to change the password.
  */
-function ProfileEmailFormValidator() {
+function AtDeviceTypeFormValidator() {
 
     /**
      * Holds the UI References.
-     *
      * @type {Object}
      */
     const ui = {
-        $form: 'form[name="profile_update_email_form"]',
+        $form: 'form[name="at_device_type_form"]',
     };
 
     /**
@@ -26,34 +25,22 @@ function ProfileEmailFormValidator() {
     }
 
     /**
-     * Validates the form.
+     * Validates the `get email` form.
      */
     function validate() {
         let rules = {
-            'profile_update_email_form[email][first]': {
+            'user_form[name]': {
                 required: true,
-                email: true,
-                minlength: 2,
-                maxlength: 255,
-            },
-            'profile_update_email_form[email][second]': {
-                required: true,
-                email: true,
                 minlength: 2,
                 maxlength: 255,
             },
         };
 
         let messages = {
-            'profile_update_email_form[email][first]': {
-                required: "Please enter the email.",
-                maxlength: "The email must not be longer than 255 characters long.",
-                minlength: "The email must not be lesser than 2 characters long.",
-            },
-            'profile_update_email_form[email][second]': {
-                required: "Please enter the email.",
-                maxlength: "The email must not be longer than 255 characters long.",
-                minlength: "The email must not be lesser than 2 characters long.",
+            'user_form[name]': {
+                required: "Please enter a value.",
+                minlength: "The value must not be lesser than 2 characters long.",
+                maxlength: "The value must not be longer than 255 characters long.",
             },
         };
 

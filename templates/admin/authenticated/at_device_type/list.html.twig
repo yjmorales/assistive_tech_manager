@@ -1,0 +1,71 @@
+{% extends '/admin/authenticated/layout/base.html.twig' %}
+
+{% import '/admin/components/helpers_macro.html.twig' as helpers %}
+
+{% block title %}
+    AT Device Types
+{% endblock %}
+
+
+{% block content %}
+
+    {{ helpers.notifications_success() }}
+    {{ helpers.notifications_error() }}
+    {{ helpers.notifications_warning() }}
+
+
+    <div class="card card-outline card-primary">
+        <div class="card-header card-header-compressed">
+            <strong class="font-20">AT Device Types</strong>
+            <div class="card-tools">
+                <a href="{{ path('admin_at_device_type_create') }}" class="btn btn-sm btn-success">
+                    <i class="fas fa-plus"></i>
+                    Create
+                </a>
+            </div>
+        </div>
+        <div class="card-body table-responsive">
+            {% if atDeviceTypes|length %}
+                <table class="table table-hover text-nowrap">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in atDeviceTypes %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.description }}</td>
+                        <td class="text-right">
+                            <div class="text-right d-inline">
+                                <a href="{{ path('admin_at_device_type_edit', {id: item.id}) }}"
+                                   class="btn btn-warning btn-xs"
+                                   type="button" title="Edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <form class="d-inline" action="{{ path('admin_at_device_type_remove', {id: item.id}) }}">
+                                    <button class="btn btn-danger btn-xs" type="submit" title="Remove">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            {% else %}
+                <p class="text-center text-muted">
+                    No results found.
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+    {{ helpers.form_processing() }}
+{% endblock %}
+
+

@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * Module responsible to manage the user form page.
+ * Module responsible to manage the form page.
  */
-function UserForm() {
+function AtDeviceTypeForm() {
 
     const state = {
         modules: {
@@ -17,7 +17,7 @@ function UserForm() {
      * @type {Object}
      */
     const ui = {
-        $form: 'form[name="user_form"]',
+        $form: 'form[name="at_device_type_form"]',
         $btn: $('button[type="submit"]'),
     };
 
@@ -25,7 +25,7 @@ function UserForm() {
      * Initializes the module.
      */
     function init() {
-        (new ProfilePasswordFormValidator()).init({callback: submit});
+        (new AtDeviceTypeFormValidator()).init({callback: submit});
     }
 
     /**
