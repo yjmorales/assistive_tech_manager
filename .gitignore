@@ -27,9 +27,7 @@
 /composer.phar
 **/Entity/*~
 /.web-server-pid
-/.env.local
-/.env.local.php
-/.env.*.local
+
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
@@ -45,8 +43,6 @@ composer.phar
 /sendgrid.env
 /execute_migrations.sh
 /config/secrets/dev/dev.decrypt.private.php
-/.env
-/.env.test
 /deploy.sh
 /docker-compose.yaml
 /public/build/
