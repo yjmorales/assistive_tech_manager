@@ -6,9 +6,9 @@
 namespace App\Controller\Admin;
 
 use App\Controller\Core\BaseController;
+use App\Entity\Disability;
+use App\Form\DisabilityFormFormType;
 use App\Controller\Core\Exception\ValidationException;
-use App\Entity\ATDevice;
-use App\Form\ATDeviceFormType;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Component\Form\FormInterface;
@@ -18,30 +18,32 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * Manage the ATDevices pages.
+ * Renders the Disability pages.
  *
- * @Route("/admin/at-device")
+ * @Route("/admin/disability")
  */
-class ATDeviceController extends BaseController
+class DisabilityController extends BaseController
 {
     /**
-     * @Route("/", name="admin_at_device_list")
+     * @Route("/", name="admin_disability_list")
      */
     public function index(ManagerRegistry $doctrine): Response
     {
-        return $this->render('/admin/authenticated/at_device/list.html.twig', [
-            'atDevices'  => $this->repository($doctrine, ATDevice::class)->findAll(),
-            'breadcrumb' => [
-                'Dashboard'  => $this->generateUrl('admin_dashboard'),
-                'AT Devices' => $this->generateUrl('admin_at_device_list'),
+        $disabilities = $this->repository($doctrine, Disability::class)->findAll();
+
+        return $this->render('/admin/authenticated/disability/list.html.twig', [
+            'disabilities' => $disabilities,
+            'breadcrumb'   => [
+                'Dashboard'    => $this->generateUrl('admin_dashboard'),
+                'Disabilities' => $this->generateUrl('admin_disability_list'),
             ]
         ]);
     }
 
     /**
-     * Creates a new entity.
+     * Creates a new disability entity.
      *
-     * @Route("/create", name="admin_at_device_create")
+     * @Route("/create", name="admin_disability_create")
      *
      * @param Request         $request
      * @param ManagerRegistry $doctrine
@@ -52,56 +54,59 @@ class ATDeviceController extends BaseController
      */
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
-        $entity = new ATDevice();
-        $form   = $this->createForm(ATDeviceFormType::class, $entity);
+        $entity = new Disability();
+        $form   = $this->createForm(DisabilityFormFormType::class, $entity);
 
-        $failureResponse = $this->render('/admin/authenticated/at_device/create.html.twig', [
+        $response = $this->render('/admin/authenticated/disability/create.html.twig', [
             'entity'     => $entity,
             'form'       => $form->createView(),
             'breadcrumb' => [
-                'Dashboard'        => $this->generateUrl('admin_dashboard'),
-                'AT Device'        => $this->generateUrl('admin_at_device_list'),
-                'Create AT Device' => $this->generateUrl('admin_at_device_create'),
+                'Dashboard'         => $this->generateUrl('admin_dashboard'),
+                'Disabilities'      => $this->generateUrl('admin_disability_list'),
+                'Create disability' => $this->generateUrl('admin_disability_create'),
             ],
         ]);
+
         try {
             if (!$this->_save($request, $doctrine, $form, $entity)) {
                 $this->notifyError('The data you provided are not secure data inputs.');
 
-                return $failureResponse;
+                return $response;
             }
         } catch (ValidationException $e) {
             $this->notifyError('The data you provided are not secure data inputs.');
 
-            return $failureResponse;
+            return $response;
         }
 
-        return $this->redirectToRoute('admin_at_device_list');
+        return $this->redirectToRoute('admin_disability_list');
     }
 
     /**
-     * Edits a new at entity.
+     * Edits a new disability entity.
      *
-     * @Route("/{id}/edit", name="admin_at_device_edit")
+     * @Route("/{id}/edit", name="admin_disability_edit")
      *
      * @param Request         $request
      * @param ManagerRegistry $doctrine
-     * @param ATDevice        $entity
+     * @param Disability      $entity
      *
      * @return Response
      *
      * @throws Exception
      */
-    public function edit(Request $request, ManagerRegistry $doctrine, ATDevice $entity): Response
+    public function edit(Request $request, ManagerRegistry $doctrine, Disability $entity): Response
     {
-        $form            = $this->createForm(ATDeviceFormType::class, $entity);
-        $failureResponse = $this->render('/admin/authenticated/at_device/edit.html.twig', [
+        $form     = $this->createForm(DisabilityFormFormType::class, $entity);
+        $successResponse = $this->redirectToRoute('admin_disability_list');
+
+        $failureResponse = $this->render('/admin/authenticated/disability/edit.html.twig', [
             'form'       => $form->createView(),
             'entity'     => $entity,
             'breadcrumb' => [
-                'Dashboard'      => $this->generateUrl('admin_dashboard'),
-                'AT Devices'     => $this->generateUrl('admin_at_device_list'),
-                'Edit AT Device' => $this->generateUrl('admin_at_device_edit', [
+                'Dashboard'     => $this->generateUrl('admin_dashboard'),
+                'Disabilities'  => $this->generateUrl('admin_disability_list'),
+                'Edit Platform' => $this->generateUrl('admin_disability_edit', [
                     'id' => $entity->getId()
                 ]),
             ],
@@ -119,39 +124,39 @@ class ATDeviceController extends BaseController
             return $failureResponse;
         }
 
-        return $this->redirectToRoute('admin_at_device_list');
+        return $successResponse;
     }
 
     /**
-     * Removes an entity.
+     * Removes a disability entity.
      *
-     * @Route("/{id}/remove", name="admin_at_device_remove")
+     * @Route("/{id}/remove", name="admin_disability_remove")
      *
      * @param ManagerRegistry $doctrine
-     * @param ATDevice        $entity
+     * @param Disability      $entity
      *
      * @return Response
      */
-    public function remove(ManagerRegistry $doctrine, ATDevice $entity): Response
+    public function remove(ManagerRegistry $doctrine, Disability $entity): Response
     {
         $this->em($doctrine)->remove($entity);
         $this->em($doctrine)->flush();
 
-        return $this->redirectToRoute('admin_at_device_list');
+        return $this->redirectToRoute('admin_disability_list');
     }
 
     /**
-     * Handles common actions used to save entity.
+     * Handles common actions used to save a disability.
      *
      * @param Request         $request
      * @param ManagerRegistry $doctrine
      * @param FormInterface   $form
-     * @param ATDevice        $entity
+     * @param Disability      $entity
      *
      * @return bool
      * @throws Exception
      */
-    private function _save(Request $request, ManagerRegistry $doctrine, FormInterface $form, ATDevice $entity): bool
+    private function _save(Request $request, ManagerRegistry $doctrine, FormInterface $form, Disability $entity): bool
     {
         /*
          * Skipping if not submitted or invalid form.
@@ -162,7 +167,10 @@ class ATDeviceController extends BaseController
         }
 
         // Validator
-        if (!$this->validator()->isValidString($entity->getName())) {
+        $isValid = $this->validator()->isValidString($entity->getName());
+        $isValid &= $this->validator()->isValidString($entity->getDescription(), null, null, false);
+
+        if (!$isValid) {
             throw new ValidationException('Invalid validation.');
         }
 
@@ -172,9 +180,9 @@ class ATDeviceController extends BaseController
 
         $isEdit = (bool)$entity->getId();
         if ($isEdit) {
-            $this->notifySuccess("The AT Device \"{$entity->getName()}\" has been successfully updated.");
+            $this->notifySuccess("The disability \"{$entity->getName()}\" has been successfully updated.");
         } else {
-            $this->notifySuccess("The AT Device \"{$entity->getName()}\" has been successfully created.");
+            $this->notifySuccess("The disability \"{$entity->getName()}\" has been successfully created.");
         }
 
         return true;

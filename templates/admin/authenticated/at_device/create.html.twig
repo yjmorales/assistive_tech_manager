@@ -9,6 +9,11 @@
 {% endblock %}
 
 {% block content %}
+
+    {{ helpers.notifications_success() }}
+    {{ helpers.notifications_error() }}
+    {{ helpers.notifications_warning() }}
+
     <div class="row">
         <div class="col">
             <div class="card card-info card-outline direct-chat direct-chat-info">

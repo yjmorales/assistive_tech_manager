@@ -3,7 +3,7 @@
 /**
  * Module responsible to manage the form page.
  */
-function AtDeviceTypeForm() {
+function DisabilityForm() {
 
     const state = {
         modules: {
@@ -17,7 +17,7 @@ function AtDeviceTypeForm() {
      * @type {Object}
      */
     const ui = {
-        $form: 'form[name="at_device_type_form"]',
+        $form: 'form[name="disability_form_form"]',
         $btn: $('button[type="submit"]'),
     };
 
@@ -25,7 +25,7 @@ function AtDeviceTypeForm() {
      * Initializes the module.
      */
     function init() {
-        (new AtDeviceTypeFormValidator()).init({callback: submit});
+        (new DisabilityFormValidator()).init({callback: submit});
     }
 
     /**

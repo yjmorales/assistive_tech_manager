@@ -6,6 +6,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\Core\BaseController;
+use App\Controller\Core\Exception\ValidationException;
 use App\Entity\ATPlatform;
 use App\Form\ATPlatformFormType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -53,20 +54,28 @@ class PlatformController extends BaseController
      */
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
-        $entity = new ATPlatform();
-        $form   = $this->createForm(ATPlatformFormType::class, $entity);
-        $saved  = $this->_save($request, $doctrine, $form, $entity);
+        $entity          = new ATPlatform();
+        $form            = $this->createForm(ATPlatformFormType::class, $entity);
+        $failureResponse = $this->render('/admin/authenticated/platform/create.html.twig', [
+            'entity'     => $entity,
+            'form'       => $form->createView(),
+            'breadcrumb' => [
+                'Dashboard'       => $this->generateUrl('admin_dashboard'),
+                'Platforms'       => $this->generateUrl('admin_platform_list'),
+                'Create platform' => $this->generateUrl('admin_platform_create'),
+            ],
+        ]);
 
-        if (!$saved) {
-            return $this->render('/admin/authenticated/platform/create.html.twig', [
-                'entity'     => $entity,
-                'form'       => $form->createView(),
-                'breadcrumb' => [
-                    'Dashboard'       => $this->generateUrl('admin_dashboard'),
-                    'Platforms'       => $this->generateUrl('admin_platform_list'),
-                    'Create platform' => $this->generateUrl('admin_platform_create'),
-                ],
-            ]);
+        try {
+            if (!$this->_save($request, $doctrine, $form, $entity)) {
+                $this->notifyError('The data you provided are not secure data inputs.');
+
+                return $failureResponse;
+            }
+        } catch (ValidationException $e) {
+            $this->notifyError('The data you provided are not secure data inputs.');
+
+            return $failureResponse;
         }
 
         return $this->redirectToRoute('admin_platform_list');
@@ -87,24 +96,32 @@ class PlatformController extends BaseController
      */
     public function edit(Request $request, ManagerRegistry $doctrine, ATPlatform $entity): Response
     {
-        $form     = $this->createForm(ATPlatformFormType::class, $entity);
-        $response = $this->redirectToRoute('admin_platform_list');
+        $form            = $this->createForm(ATPlatformFormType::class, $entity);
+        $failureResponse = $this->render('/admin/authenticated/platform/edit.html.twig', [
+            'form'       => $form->createView(),
+            'entity'     => $entity,
+            'breadcrumb' => [
+                'Dashboard'     => $this->generateUrl('admin_dashboard'),
+                'Platforms'     => $this->generateUrl('admin_platform_list'),
+                'Edit Platform' => $this->generateUrl('admin_platform_edit', [
+                    'id' => $entity->getId()
+                ]),
+            ],
+        ]);
 
-        if (!$this->_save($request, $doctrine, $form, $entity)) {
-            return $this->render('/admin/authenticated/platform/edit.html.twig', [
-                'form'       => $form->createView(),
-                'entity'     => $entity,
-                'breadcrumb' => [
-                    'Dashboard'     => $this->generateUrl('admin_dashboard'),
-                    'Platforms'     => $this->generateUrl('admin_platform_list'),
-                    'Edit Platform' => $this->generateUrl('admin_platform_edit', [
-                        'id' => $entity->getId()
-                    ]),
-                ],
-            ]);
+        try {
+            if (!$this->_save($request, $doctrine, $form, $entity)) {
+                $this->notifyError('The data you provided are not secure data inputs.');
+
+                return $failureResponse;
+            }
+        } catch (ValidationException $e) {
+            $this->notifyError('The data you provided are not secure data inputs.');
+
+            return $failureResponse;
         }
 
-        return $response;
+        return $this->redirectToRoute('admin_platform_list');
     }
 
     /**
@@ -151,7 +168,7 @@ class PlatformController extends BaseController
         $isValid &= $this->validator()->isValidString($entity->getDescription(), null, null, false);
 
         if (!$isValid) {
-            throw new Exception('Invalid validation.');
+            throw new ValidationException('Invalid validation.');
         }
 
         $em = $this->em($doctrine);

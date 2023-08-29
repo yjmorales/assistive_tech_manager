@@ -1,16 +1,16 @@
 'use strict';
 
 /**
- * Validates the entity form to change the password.
+ * Validates the entity form.
  */
-function AtDeviceTypeFormValidator() {
+function DisabilityFormValidator() {
 
     /**
      * Holds the UI References.
      * @type {Object}
      */
     const ui = {
-        $form: 'form[name="at_device_type_form"]',
+        $form: 'form[name="disability_form_form"]',
     };
 
     /**
@@ -25,11 +25,11 @@ function AtDeviceTypeFormValidator() {
     }
 
     /**
-     * Validates the `get email` form.
+     * Validates the form.
      */
     function validate() {
         let rules = {
-            'at_device_type_form[name]': {
+            'disability_form_form[name]': {
                 required: true,
                 minlength: 2,
                 maxlength: 255,
@@ -37,7 +37,7 @@ function AtDeviceTypeFormValidator() {
         };
 
         let messages = {
-            'at_device_type_form[name]': {
+            'disability_form_form[name]': {
                 required: "Please enter a value.",
                 minlength: "The value must not be lesser than 2 characters long.",
                 maxlength: "The value must not be longer than 255 characters long.",

@@ -6,6 +6,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\Core\BaseController;
+use App\Controller\Core\Exception\ValidationException;
 use App\Entity\ATDeviceType;
 use App\Form\ATDeviceTypeFormType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -53,20 +54,28 @@ class ATDeviceTypeController extends BaseController
      */
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
-        $entity = new ATDeviceType();
-        $form   = $this->createForm(ATDeviceTypeFormType::class, $entity);
-        $saved  = $this->_save($request, $doctrine, $form, $entity);
+        $entity          = new ATDeviceType();
+        $form            = $this->createForm(ATDeviceTypeFormType::class, $entity);
+        $failureResponse = $this->render('/admin/authenticated/at_device_type/create.html.twig', [
+            'entity'     => $entity,
+            'form'       => $form->createView(),
+            'breadcrumb' => [
+                'Dashboard'             => $this->generateUrl('admin_dashboard'),
+                'AT Device Types'       => $this->generateUrl('admin_at_device_type_list'),
+                'Create AT Device Type' => $this->generateUrl('admin_at_device_type_create'),
+            ],
+        ]);
 
-        if (!$saved) {
-            return $this->render('/admin/authenticated/at_device_type/create.html.twig', [
-                'entity'     => $entity,
-                'form'       => $form->createView(),
-                'breadcrumb' => [
-                    'Dashboard'             => $this->generateUrl('admin_dashboard'),
-                    'AT Device Types'       => $this->generateUrl('admin_at_device_type_list'),
-                    'Create AT Device Type' => $this->generateUrl('admin_at_device_type_create'),
-                ],
-            ]);
+        try {
+            if (!$this->_save($request, $doctrine, $form, $entity)) {
+                $this->notifyError('The data you provided are not secure data inputs.');
+
+                return $failureResponse;
+            }
+        } catch (ValidationException $e) {
+            $this->notifyError('The data you provided are not secure data inputs.');
+
+            return $failureResponse;
         }
 
         return $this->redirectToRoute('admin_at_device_type_list');
@@ -87,21 +96,30 @@ class ATDeviceTypeController extends BaseController
      */
     public function edit(Request $request, ManagerRegistry $doctrine, ATDeviceType $entity): Response
     {
-        $form     = $this->createForm(ATDeviceTypeFormType::class, $entity);
-        $response = $this->redirectToRoute('admin_at_device_type_list');
+        $form            = $this->createForm(ATDeviceTypeFormType::class, $entity);
+        $response        = $this->redirectToRoute('admin_at_device_type_list');
+        $failureResponse = $this->render('/admin/authenticated/at_device_type/edit.html.twig', [
+            'form'       => $form->createView(),
+            'entity'     => $entity,
+            'breadcrumb' => [
+                'Dashboard'           => $this->generateUrl('admin_dashboard'),
+                'AT Device Types'     => $this->generateUrl('admin_at_device_type_list'),
+                'Edit AT Device Type' => $this->generateUrl('admin_at_device_type_edit', [
+                    'id' => $entity->getId()
+                ]),
+            ],
+        ]);
 
-        if (!$this->_save($request, $doctrine, $form, $entity)) {
-            return $this->render('/admin/authenticated/at_device_type/edit.html.twig', [
-                'form'       => $form->createView(),
-                'entity'     => $entity,
-                'breadcrumb' => [
-                    'Dashboard'           => $this->generateUrl('admin_dashboard'),
-                    'AT Device Types'     => $this->generateUrl('admin_at_device_type_list'),
-                    'Edit AT Device Type' => $this->generateUrl('admin_at_device_type_edit', [
-                        'id' => $entity->getId()
-                    ]),
-                ],
-            ]);
+        try {
+            if (!$this->_save($request, $doctrine, $form, $entity)) {
+                $this->notifyError('The data you provided are not secure data inputs.');
+
+                return $failureResponse;
+            }
+        } catch (ValidationException $e) {
+            $this->notifyError('The data you provided are not secure data inputs.');
+
+            return $failureResponse;
         }
 
         return $response;
@@ -150,7 +168,7 @@ class ATDeviceTypeController extends BaseController
         $isValid &= $this->validator()->isValidString($entity->getDescription(), null, null, false);
 
         if (!$isValid) {
-            throw new Exception('Invalid validation.');
+            throw new ValidationException('Invalid validation.');
         }
 
         $em = $this->em($doctrine);
