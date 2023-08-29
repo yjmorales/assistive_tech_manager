@@ -39,5 +39,41 @@
                 {{ helpers.form_processing() }}
             </div>
         </div>
+        <div class="col">
+            <div class="card card-primary card-outline direct-chat direct-chat-info">
+                <div class="card-header card-header-compressed">
+                    <strong class="font-20">The best player on the Orlando Solar Bears</strong>
+                </div>
+                <div class="card-body p-2">
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Points</th>
+                                    <th>Winner</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in players %}
+                                    <tr>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.points }}</td>
+                                        <td>
+                                            {% if item.id == winner.id %}
+                                                <i class="fa fa-certificate text-orange"></i>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 {% endblock %}

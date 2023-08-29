@@ -13,17 +13,27 @@ Assistive Technology Management System
 
 Clone the project via `git` or copy it via `ftp`. Also copy it directly on a filesystem. 
 
-`git clone git@github.com:yjmorales/assistive_tech_manager.git`
+1. `git clone git@github.com:yjmorales/assistive_tech_manager.git`
 
-`cd Path/To/assistive_tech_manager` Go to the web app directory.
+2. `cd Path/To/assistive_tech_manager` Go to the web app directory.
 
-`composer install` Install dependencies.
+3. `composer install` Install dependencies.
 
-`php bin/console doctrine:migrations:migrate`
+4. Migrate database. 
 
-`npm install` Install packages.  
+Before create the tables it's required to update the .env file by 
+changing updating the following variable:
 
-`gulp run` Execute tasks to prepare the files the web app use.
+> DATABASE_URL="mysql://root:admin@127.0.0.1:3318/assistive_tech_manager" 
+
+Then execute the migration: `php bin/console doctrine:migrations:migrate`
+
+Rollback the variable to its initial value
+> DATABASE_URL="mysql://root:admin@db:3306/assistive_tech_manager?serverVersion=8.0"
+
+5. `npm install` Install packages.  
+
+6. `gulp run` Execute tasks to prepare the files the web app use.
 
 
 ## To run it locally via Docker.

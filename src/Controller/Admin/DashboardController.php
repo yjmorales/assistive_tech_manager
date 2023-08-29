@@ -11,6 +11,7 @@ use App\Entity\ATDeviceType;
 use App\Entity\ATPlatform;
 use App\Entity\Client;
 use App\Entity\Disability;
+use App\Entity\Player;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,9 +28,26 @@ class DashboardController extends BaseController
     /**
      * @Route("/", name="admin_dashboard")
      */
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
-        return $this->render('/admin/authenticated/dashboard/dashboard.html.twig');
+        $this->_setupPlayers($doctrine);
+
+        $players = $this->em($doctrine)->getRepository(Player::class)->findAll();
+
+        /** @var Player $players */
+        $winner = $players[0];
+
+        /** @var Player $item */
+        foreach ($players as $item) {
+            if ($item->getPoints() > $winner->getPoints()) {
+                $winner = $item;
+            }
+        }
+
+        return $this->render('/admin/authenticated/dashboard/dashboard.html.twig', [
+            'players' => $players,
+            'winner'  => $winner,
+        ]);
     }
 
     /**
@@ -142,8 +160,45 @@ class DashboardController extends BaseController
 
         $em->flush();
 
+        // PLAYERS
+
+
         return $this->redirectToRoute('admin_client_list');
     }
+
+    /**
+     * Helper function to setup players.
+     *
+     * @param ManagerRegistry $doctrine
+     *
+     * @return void
+     */
+    private function _setupPlayers(ManagerRegistry $doctrine): void
+    {
+        $em      = $this->em($doctrine);
+        $players = $em->getRepository(Player::class)->findAll();
+        if (count($players)) {
+            return;
+        }
+
+        $player = new Player();
+        $player->setName('Ryan Cox');
+        $player->setPoints(34);
+        $em->persist($player);
+
+        $player = new Player();
+        $player->setName('Jerome D-Jay Jerome');
+        $player->setPoints(15);
+        $em->persist($player);
+
+        $player = new Player();
+        $player->setName('Brayden Low');
+        $player->setPoints(18);
+        $em->persist($player);
+
+        $em->flush();
+    }
+
 
     /**
      * Helper function to clear the db.
@@ -162,11 +217,13 @@ class DashboardController extends BaseController
         $platforms    = $em->getRepository(ATPlatform::class)->findAll();
         $deviceTypes  = $em->getRepository(ATDeviceType::class)->findAll();
 
+
         $this->_removeItemsFromDb($clients, $em);
         $this->_removeItemsFromDb($disabilities, $em);
         $this->_removeItemsFromDb($devices, $em);
         $this->_removeItemsFromDb($platforms, $em);
         $this->_removeItemsFromDb($deviceTypes, $em);
+
 
         $em->flush();
     }
