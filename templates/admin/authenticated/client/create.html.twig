@@ -2,17 +2,19 @@
 
 {% import '/admin/components/helpers_macro.html.twig' as helpers %}
 
-{% set isEdit = true %}
+{% set isEdit = false %}
 
 {% block title %}
-    Edit Disability
+    Create Client
 {% endblock %}
 
 {% block content %}
 
+
     {{ helpers.notifications_success() }}
     {{ helpers.notifications_error() }}
     {{ helpers.notifications_warning() }}
+
 
 
     <div class="row">
@@ -20,18 +22,18 @@
             <div class="card card-info card-outline direct-chat direct-chat-info">
                 {{ form_start(form) }}
                 <div class="card-header card-header-compressed">
-                    <strong class="font-20">Edit Disability</strong>
+                    <strong class="font-20">Create Client</strong>
                 </div>
                 <div class="card-body p-2">
                     <div class="row">
                         <div class="col-8 offset-2">
-                            {% include '/admin/authenticated/disability/_form_fields.html.twig' %}
+                            {% include '/admin/authenticated/client/_form_fields.html.twig' %}
                         </div>
                     </div>
                 </div>
                 <div class="card-footer p-2 text-center">
-                    <button type="submit" class="btn btn-info btn-sm">Update</button>
-                    <a href="{{ path('admin_disability_list') }}" class="btn btn-secondary btn-sm">Cancel</a>
+                    <button type="submit" class="btn btn-info btn-sm btn-admin">Insert</button>
+                    <a href="{{ path('admin_client_list') }}" class="btn btn-secondary btn-sm btn-admin">Cancel</a>
                 </div>
                 {{ form_end(form) }}
                 {{ helpers.form_processing() }}
@@ -42,8 +44,8 @@
 
 {% block js %}
     {{ parent() }}
-    <script src="{{ asset('/app/admin/js/authenticated/Disability/DisabilityFormValidator.js') }}"></script>
-    <script src="{{ asset('/app/admin/js/authenticated/Disability/DisabilityForm.js') }}"></script>
+    <script src="{{ asset('/app/admin/js/authenticated/Client/ClientFormValidator.js') }}"></script>
+    <script src="{{ asset('/app/admin/js/authenticated/Client/ClientForm.js') }}"></script>
     <script>
         (new ClientForm()).init();
     </script>

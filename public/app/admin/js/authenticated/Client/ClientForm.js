@@ -3,7 +3,7 @@
 /**
  * Module responsible to manage the form page.
  */
-function DisabilityForm() {
+function ClientForm() {
 
     const state = {
         modules: {
@@ -17,7 +17,7 @@ function DisabilityForm() {
      * @type {Object}
      */
     const ui = {
-        $form: 'form[name="disability_form_form"]',
+        $form: 'form[name="client_form"]',
         $btn: $('button[type="submit"]'),
     };
 
