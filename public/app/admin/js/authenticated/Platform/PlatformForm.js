@@ -3,7 +3,7 @@
 /**
  * Module responsible to manage the form page.
  */
-function AtDeviceTypeForm() {
+function PlatformForm() {
 
     const state = {
         modules: {
@@ -17,7 +17,7 @@ function AtDeviceTypeForm() {
      * @type {Object}
      */
     const ui = {
-        $form: 'form[name="at_device_type_form"]',
+        $form: 'form[name="at_platform_form"]',
         $btn: $('button[type="submit"]'),
     };
 

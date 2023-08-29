@@ -5,7 +5,7 @@
 {% set isEdit = false %}
 
 {% block title %}
-    Create AT Device Type
+    Create Platform
 {% endblock %}
 
 {% block content %}
@@ -14,12 +14,12 @@
             <div class="card card-info card-outline direct-chat direct-chat-info">
                 {{ form_start(form) }}
                 <div class="card-header card-header-compressed">
-                    <strong class="font-20">Create AT Device Type</strong>
+                    <strong class="font-20">Create Platform</strong>
                 </div>
                 <div class="card-body p-2">
                     <div class="row">
                         <div class="col-8 offset-2">
-                            {% include '/admin/authenticated/at_device_type/_form_fields.html.twig' %}
+                            {% include '/admin/authenticated/platform/_form_fields.html.twig' %}
                         </div>
                     </div>
                 </div>
@@ -36,8 +36,8 @@
 
 {% block js %}
     {{ parent() }}
-    <script src="{{ asset('/app/admin/js/authenticated/AtDeviceType/AtDeviceTypeFormValidator.js') }}"></script>
-    <script src="{{ asset('/app/admin/js/authenticated/AtDeviceType/AtDeviceTypeForm.js') }}"></script>
+    <script src="{{ asset('/app/admin/js/authenticated/Platform/PlatformFormValidator.js') }}"></script>
+    <script src="{{ asset('/app/admin/js/authenticated/Platform/PlatformForm.js') }}"></script>
     <script>
         (new PlatformForm()).init();
     </script>
